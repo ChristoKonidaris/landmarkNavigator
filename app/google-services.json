@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "691786927715",
+    "project_id": "landmarknavigator",
+    "storage_bucket": "landmarknavigator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691786927715:android:b52cd03ef1f469aba1b256",
+        "android_client_info": {
+          "package_name": "com.example.landmarknavigator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691786927715-g2tsbilhdoaqvqbn8dgqu6tkm9aakrmt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRBkWAvz9SWb5IFStfTuvypJHumJ4Mdo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691786927715-g2tsbilhdoaqvqbn8dgqu6tkm9aakrmt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
