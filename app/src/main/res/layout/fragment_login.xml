@@ -7,12 +7,69 @@
     tools:context=".LoginFragment" >
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/loginEmailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login Screen"
+        android:text="@string/login_email_text_view"
+        android:labelFor="@id/loginEmailEdit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998" />
+
+    <TextView
+        android:id="@+id/loginPasswordTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:labelFor="@id/loginPasswordEdit"
+        android:text="@string/login_password_text_view"
+        app:layout_constraintStart_toStartOf="@+id/loginEmailEdit"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmailEdit" />
+
+    <EditText
+        android:id="@+id/loginPasswordEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:autofillHints="Password"
+        android:labelFor="@id/loginPasswordEdit"
+        app:layout_constraintStart_toStartOf="@+id/loginPasswordTextView"
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordTextView" />
+
+    <EditText
+        android:id="@+id/loginEmailEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:autofillHints="Email"
+        app:layout_constraintStart_toStartOf="@+id/loginEmailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmailTextView" />
+
+    <Button
+        android:id="@+id/loginSubmitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_submit_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/loginRegistrationTextView"
+        app:layout_constraintVertical_bias="0.16000003" />
+
+    <TextView
+        android:id="@+id/loginRegistrationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/login_registration_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEdit" />
 </androidx.constraintlayout.widget.ConstraintLayout>

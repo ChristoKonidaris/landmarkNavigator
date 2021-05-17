@@ -6,13 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".RegistrationFragment">
 
-    <TextView
-        android:id="@+id/textView2"
+    <EditText
+        android:id="@+id/registrationPasswordRepeatEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registration"
+        android:layout_marginTop="10dp"
+        android:autofillHints="Password"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:labelFor="@id/loginPasswordEdit"
+        app:layout_constraintStart_toStartOf="@+id/registrationPasswordRepeatTextView"
+        app:layout_constraintTop_toBottomOf="@+id/registrationPasswordRepeatTextView" />
+
+    <TextView
+        android:id="@+id/registrationPasswordRepeatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:labelFor="@id/registrationPasswordRepeatEdit"
+        android:text="@string/registration_repeat_text_view"
+        app:layout_constraintStart_toStartOf="@+id/registrationPasswordEdit"
+        app:layout_constraintTop_toBottomOf="@+id/registrationPasswordEdit" />
+
+    <EditText
+        android:id="@+id/registrationEmailEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:autofillHints="Email"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/registrationEmailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/registrationEmailTextView" />
+
+    <TextView
+        android:id="@+id/registrationPasswordTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:labelFor="@id/registrationPasswordEdit"
+        android:text="@string/login_password_text_view"
+        app:layout_constraintStart_toStartOf="@+id/registrationEmailEdit"
+        app:layout_constraintTop_toBottomOf="@+id/registrationEmailEdit" />
+
+    <EditText
+        android:id="@+id/registrationPasswordEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:autofillHints="Password"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:labelFor="@id/loginPasswordEdit"
+        app:layout_constraintStart_toStartOf="@+id/registrationPasswordTextView"
+        app:layout_constraintTop_toBottomOf="@+id/registrationPasswordTextView" />
+
+    <TextView
+        android:id="@+id/registrationEmailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/registrationEmailEdit"
+        android:text="@string/login_email_text_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.268"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26999998" />
+
+    <Button
+        android:id="@+id/registrationSubmitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registration_submit_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/registrationPasswordRepeatEdit"
+        app:layout_constraintVertical_bias="0.26999998" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
