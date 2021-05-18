@@ -27,10 +27,22 @@
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homepageFragment"
+            app:destination="@id/homepageFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.landmarknavigator.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" />
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_homepageFragment"
+            app:destination="@id/homepageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homepageFragment"
+        android:name="com.example.landmarknavigator.HomepageFragment"
+        android:label="fragment_homepage"
+        tools:layout="@layout/fragment_homepage" />
 </navigation>
