@@ -1,12 +1,23 @@
 package com.example.landmarknavigator;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +34,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
+    //GPS variables
+    private LocationManager manager;
+    private boolean locationAccess = false;
+    private final int LOCATION_ACCESS_CODE = 1;
     //Logging constant
     private final static String TAG = "LoginFragment";
 
@@ -37,7 +52,7 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LoginFragment newInstance(String param1, String param2) {
+    public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
         return fragment;
     }
@@ -53,10 +68,10 @@ public class LoginFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            navigateToHomePage();
-        }
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            navigateToHomePage();
+//        }
     }
 
     @Override
@@ -68,6 +83,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 
         //assign view variables
@@ -76,13 +92,87 @@ public class LoginFragment extends Fragment {
         txtRegistration = view.findViewById(R.id.loginRegistrationTextView);
         btnSubmit = view.findViewById(R.id.loginSubmitButton);
 
+        /**
+         * https://stackoverflow.com/questions/843675/how-do-i-find-out-if-the-gps-of-an-android-device-is-enabled
+         */
+        manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!isGpsEnabled()){
+            Log.i(TAG, "gpsDisabled");
+            buildAlertMessageNoGps();
+        }else {
+            Log.i(TAG, "gpsEnabled");
+            if(checkLocationPermission()){ assignLocationListener(); }
+            else{ requestLocationPermission(); }
+        }
+
+
+
         txtRegistration.setOnClickListener(navigateToRegistrationEvent);
         btnSubmit.setOnClickListener(loginEvent);
+    }
+
+    private boolean isGpsEnabled(){
+        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    private void buildAlertMessageNoGps(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("GPS is required. Do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private boolean checkLocationPermission(){
+        return ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationPermission(){
+        requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_ACCESS_CODE);
+    }
+    private void assignLocationListener(){
+        LocationListener locationListener = new UserLocationListener();
+        if(checkLocationPermission()) manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,10,locationListener);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == LOCATION_ACCESS_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Log.i(TAG, "onRequestPermissionResult:Granted");
+                locationAccess = true;
+                assignLocationListener();
+            }else{
+                locationAccess = false;
+            }
+        }
     }
 
     private View.OnClickListener loginEvent = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.i(TAG, "LoginEvent");
+            if(!isGpsEnabled()){
+                Log.i(TAG, "loginEvent:GpsEnabled:false");
+                buildAlertMessageNoGps();
+                return;
+            }
+            if(!locationAccess){
+                Log.i(TAG, "loginEvent:locationAccess:false");
+                requestLocationPermission();
+                return;
+            }
             String email = edtEmail.getText().toString();
             String password = edtPassword.getText().toString();
 
@@ -100,6 +190,10 @@ public class LoginFragment extends Fragment {
     private View.OnClickListener navigateToRegistrationEvent = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if(!isGpsEnabled()){
+                buildAlertMessageNoGps();
+                return;
+            }
             Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_registrationFragment);
         }
     };
@@ -120,4 +214,33 @@ public class LoginFragment extends Fragment {
             }
         }
     };
+
+
+    /*
+        Geolocation listener class
+     */
+
+    private class UserLocationListener implements LocationListener{
+        public double lat;
+        public double lon;
+
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            this.lat = location.getLatitude();
+            this.lon = location.getLongitude();
+            Log.i(TAG, "onLocationChanged");
+            Log.i(TAG, "Lat is " + lat);
+            Log.i(TAG, "Lon is " + lon);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
+
+        @Override
+        public void onProviderEnabled(@NonNull String provider) { }
+
+        @Override
+        public void onProviderDisabled(@NonNull String provider) { }
+    }
 }
+

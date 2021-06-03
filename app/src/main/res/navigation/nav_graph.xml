@@ -37,12 +37,26 @@
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
-            android:id="@+id/action_registrationFragment_to_homepageFragment"
-            app:destination="@id/homepageFragment" />
+            android:id="@+id/action_registrationFragment_to_registerSettingsFragment"
+            app:destination="@id/registerSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/homepageFragment"
         android:name="com.example.landmarknavigator.HomepageFragment"
         android:label="fragment_homepage"
         tools:layout="@layout/fragment_homepage" />
+    <fragment
+        android:id="@+id/registerSettingsFragment"
+        android:name="com.example.landmarknavigator.RegisterSettingsFragment"
+        android:label="fragment_register_settings"
+        tools:layout="@layout/fragment_register_settings" >
+        <action
+            android:id="@+id/action_registerSettingsFragment_to_homepageFragment"
+            app:destination="@id/homepageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.landmarknavigator.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

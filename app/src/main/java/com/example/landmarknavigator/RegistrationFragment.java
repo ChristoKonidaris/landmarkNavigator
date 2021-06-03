@@ -94,7 +94,7 @@ public class RegistrationFragment extends Fragment {
             if(task.isSuccessful()){
                 Log.d(TAG, "CreateWithUsername&Password:success");
                 Toast.makeText(getActivity(), "User Registered", Toast.LENGTH_SHORT).show();
-                navigateToHome();
+                navigateToRegistrationSettings();
             }else{
                 Log.w(TAG, "CreateWithUsername&Password:failure");
                 Toast.makeText(getActivity(), "Failed to register user", Toast.LENGTH_SHORT).show();
@@ -102,8 +102,8 @@ public class RegistrationFragment extends Fragment {
         }
     };
 
-    private void navigateToHome(){
-        Navigation.findNavController(getView()).navigate(R.id.action_registrationFragment_to_homepageFragment);
+    private void navigateToRegistrationSettings(){
+        Navigation.findNavController(getView()).navigate(R.id.action_registrationFragment_to_registerSettingsFragment);
     }
 
 }
