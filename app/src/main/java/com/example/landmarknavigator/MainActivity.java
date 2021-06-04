@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.map:
                     // navigate to map
                     Log.i(TAG, "map clicked");
-                    // navController.navigate(R.id.);
+                    // navController.navigate(R.id.mapFragment);
                     break;
                 case R.id.favourites:
                     // navigate to favs

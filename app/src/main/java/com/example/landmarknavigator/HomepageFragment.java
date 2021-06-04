@@ -12,18 +12,24 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class HomepageFragment extends Fragment {
     public static final int LOCATION_ACCESS_CODE = 1;
     //Location variables
     private LocationService locationService;
     private LocationManager manager;
+    //logging variable
     public static final String TAG = "HomepageFragment";
+    //view variables
+    TextView output;
 
     public HomepageFragment() {
         // Required empty public constructor
@@ -54,6 +60,7 @@ public class HomepageFragment extends Fragment {
         assignLocationListener();
 
         Button btnTest = view.findViewById(R.id.btnTest);
+        output = view.findViewById(R.id.txtTestOutput);
 
         btnTest.setOnClickListener(testEvent);
     }
@@ -85,6 +92,27 @@ public class HomepageFragment extends Fragment {
     private View.OnClickListener testEvent = v -> {
         Log.i(TAG, "lat " + LocationService.lat);
         Log.i(TAG, "lon " + LocationService.lon);
+        if(LocationService.lat != 0.0  && LocationService.lon != 0.0){
+            Log.i(TAG, "Making request");
+            Webservice webservice = new Webservice();
+            webservice.getLocations(LocationService.lat, LocationService.lon, "Bank", new IRootCallback() {
+                @Override
+                public void RootCallback(Root root) {
+                    //TODO add the adapter for the recycler view
+                    String outputString = "";
+                    for(Root.Items item : root.getItems()){
+                        outputString += item.getTitle() +"\n";
+                    }
+                    Handler mHandler = new Handler(Looper.getMainLooper());
+                    String finalOutputString = outputString;
+                    mHandler.post(() -> {
+
+                        output.setText(finalOutputString);
+
+                    });
+                }
+            });
+        }
     };
 
 
