@@ -62,7 +62,35 @@ public class RegisterSettingsFragment extends Fragment {
         // todo pull the data from the settings/database
         String[] unitArr = {"Imperial", "Metric"};
         String[] themeArr = {"Dark", "Light"};
-        String[] landmarkArr = {"Restaurants", "Coffee Shops"};
+        String[] landmarkArr = {
+                "Banks/ATM",
+                "Coffee Shops",
+                "Gas Stations",
+                "Hospitals",
+                "Movies",
+                "Restaurants",
+                "Bars",
+                "Schools",
+                "Tourist Attractions",
+                "Shopping Center",
+                "Post Office",
+                "Churches",
+                "Car Wash",
+                "Fire Station",
+                "Police Station",
+                "Veterinarian",
+                "Art Gallery",
+                "Museum",
+                "Fast Food",
+                "Casino",
+                "Embassy",
+                "Prisons",
+                "Hotel",
+                "Zoo/Park",
+                "Gyms",
+                "Library",
+                "Airport"
+        };
 
         spnrUnits.setAdapter(getAdapter(unitArr));
         spnrTheme.setAdapter(getAdapter(themeArr));
