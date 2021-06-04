@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,7 +27,7 @@ public class RegisterSettingsFragment extends Fragment {
     //Firebase variables
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference mRef = mDatabase.getReference(mAuth.getUid());
+    DatabaseReference mRef = mDatabase.getReference();
     //View variables
     Spinner spnrUnits, spnrTheme, spnrLandmark;
     Button btnSubmit;
@@ -102,13 +106,27 @@ public class RegisterSettingsFragment extends Fragment {
     private View.OnClickListener submitEvent = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // Todo submit to the firebase
             String unit = spnrUnits.getSelectedItem().toString();
             String theme = spnrTheme.getSelectedItem().toString();
             String landmark = spnrLandmark.getSelectedItem().toString();
 
             Settings settings = new Settings(unit, theme, landmark);
-            mRef.setValue(settings, Settings.class);
+            mRef.child("users")
+                    .child(mAuth.getUid())
+                    .child("settings")
+                    .setValue(settings)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getContext(), "Settings added", Toast.LENGTH_SHORT).show();
+                            Navigation.findNavController(getView()).navigate(R.id.action_registerSettingsFragment_to_homepageFragment);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "Failed with error " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
         }
     };
 

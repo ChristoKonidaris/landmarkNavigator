@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrationFragment extends Fragment {
@@ -83,6 +84,9 @@ public class RegistrationFragment extends Fragment {
                 return;
             }
 
+            Log.i(TAG, "Registration email "+ email);
+            Log.i(TAG, "Registration password "+ password);
+
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(getActivity(), registrationListener);
             Toast.makeText(getContext(), "Registering", Toast.LENGTH_SHORT).show();
         }
@@ -97,7 +101,11 @@ public class RegistrationFragment extends Fragment {
                 navigateToRegistrationSettings();
             }else{
                 Log.w(TAG, "CreateWithUsername&Password:failure");
-                Toast.makeText(getActivity(), "Failed to register user", Toast.LENGTH_SHORT).show();
+                FirebaseAuthException e = (FirebaseAuthException)task.getException();
+                Log.e(TAG, e.getMessage());
+                Toast.makeText(getActivity(), "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                // Toast.makeText(getActivity(), "Failed to register user", Toast.LENGTH_SHORT).show();
             }
         }
     };

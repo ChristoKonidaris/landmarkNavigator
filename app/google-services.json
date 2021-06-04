@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "691786927715",
-    "project_id": "landmarknavigator",
-    "storage_bucket": "landmarknavigator.appspot.com"
+    "project_number": "532333751680",
+    "firebase_url": "https://landmarknavigator-35e74-default-rtdb.firebaseio.com",
+    "project_id": "landmarknavigator-35e74",
+    "storage_bucket": "landmarknavigator-35e74.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:691786927715:android:b52cd03ef1f469aba1b256",
+        "mobilesdk_app_id": "1:532333751680:android:cd3de6324fc5fe18cd6565",
         "android_client_info": {
           "package_name": "com.example.landmarknavigator"
         }
       },
       "oauth_client": [
         {
-          "client_id": "691786927715-g2tsbilhdoaqvqbn8dgqu6tkm9aakrmt.apps.googleusercontent.com",
+          "client_id": "532333751680-hchv1pglr228dlcb5thbfo8gduorftl6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDRBkWAvz9SWb5IFStfTuvypJHumJ4Mdo4"
+          "current_key": "AIzaSyDmZ15fbG4N7uwhSg-ETBztu-M1Qr6rjsE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "691786927715-g2tsbilhdoaqvqbn8dgqu6tkm9aakrmt.apps.googleusercontent.com",
+              "client_id": "532333751680-hchv1pglr228dlcb5thbfo8gduorftl6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -35,8 +35,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
     //GPS variables
-    private LocationManager manager;
-    private boolean locationAccess = false;
     private final int LOCATION_ACCESS_CODE = 1;
     //Logging constant
     private final static String TAG = "LoginFragment";
@@ -95,24 +93,23 @@ public class LoginFragment extends Fragment {
         /**
          * https://stackoverflow.com/questions/843675/how-do-i-find-out-if-the-gps-of-an-android-device-is-enabled
          */
-        manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationService.manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);;
+
         if(!isGpsEnabled()){
             Log.i(TAG, "gpsDisabled");
             buildAlertMessageNoGps();
         }else {
             Log.i(TAG, "gpsEnabled");
-            if(checkLocationPermission()){ assignLocationListener(); }
-            else{ requestLocationPermission(); }
+            if(!checkLocationPermission()){ requestLocationPermission(); }
+            else { LocationService.locationAccess = true; }
         }
-
-
 
         txtRegistration.setOnClickListener(navigateToRegistrationEvent);
         btnSubmit.setOnClickListener(loginEvent);
     }
 
     private boolean isGpsEnabled(){
-        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return LocationService.manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     private void buildAlertMessageNoGps(){
@@ -141,20 +138,15 @@ public class LoginFragment extends Fragment {
     private void requestLocationPermission(){
         requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_ACCESS_CODE);
     }
-    private void assignLocationListener(){
-        LocationListener locationListener = new UserLocationListener();
-        if(checkLocationPermission()) manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,10,locationListener);
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == LOCATION_ACCESS_CODE){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Log.i(TAG, "onRequestPermissionResult:Granted");
-                locationAccess = true;
-                assignLocationListener();
+                LocationService.locationAccess = true;
             }else{
-                locationAccess = false;
+                LocationService.locationAccess = false;
             }
         }
     }
@@ -168,7 +160,7 @@ public class LoginFragment extends Fragment {
                 buildAlertMessageNoGps();
                 return;
             }
-            if(!locationAccess){
+            if(!LocationService.locationAccess){
                 Log.i(TAG, "loginEvent:locationAccess:false");
                 requestLocationPermission();
                 return;
@@ -208,6 +200,7 @@ public class LoginFragment extends Fragment {
             if(task.isSuccessful()){
                 Log.d(TAG, "SignInWithEmail&Password:success");
                 Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                navigateToHomePage();
             }else{
                 Log.w(TAG, "SignInWithEmail&Password:failure");
                 Toast.makeText(getActivity(), "Authentication failed", Toast.LENGTH_SHORT).show();
@@ -215,32 +208,5 @@ public class LoginFragment extends Fragment {
         }
     };
 
-
-    /*
-        Geolocation listener class
-     */
-
-    private class UserLocationListener implements LocationListener{
-        public double lat;
-        public double lon;
-
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            this.lat = location.getLatitude();
-            this.lon = location.getLongitude();
-            Log.i(TAG, "onLocationChanged");
-            Log.i(TAG, "Lat is " + lat);
-            Log.i(TAG, "Lon is " + lon);
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) { }
-
-        @Override
-        public void onProviderEnabled(@NonNull String provider) { }
-
-        @Override
-        public void onProviderDisabled(@NonNull String provider) { }
-    }
 }
 
