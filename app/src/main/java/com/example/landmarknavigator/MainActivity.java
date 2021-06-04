@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
             // show bottom navigation when NOT on Splash, Login, Registration, RegistrationSettings Screens
             if(destination.getId() != R.id.splashFragment &&
-                // destination.getId() != R.id.loginFragment &&
+                destination.getId() != R.id.loginFragment &&
                 destination.getId() != R.id.registrationFragment &&
                 destination.getId() != R.id.registerSettingsFragment){
                 bottomNav.setVisibility(View.VISIBLE);
