@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.settingsFragment);
                     break;
             }
-            return false;
+            return true;
         }
     };
 }
