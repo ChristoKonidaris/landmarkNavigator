@@ -2,7 +2,6 @@ package com.example.landmarknavigator;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -11,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -18,18 +19,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class HomepageFragment extends Fragment {
     public static final int LOCATION_ACCESS_CODE = 1;
     //Location variables
     private LocationService locationService;
     private LocationManager manager;
+    LocationListener locationListener;
     //logging variable
     public static final String TAG = "HomepageFragment";
     //view variables
-    TextView output;
+    RecyclerView recyclerView;
 
     public HomepageFragment() {
         // Required empty public constructor
@@ -58,11 +58,8 @@ public class HomepageFragment extends Fragment {
         locationService = new LocationService();
         manager = LocationService.manager;
         assignLocationListener();
+        recyclerView = view.findViewById(R.id.recyclerView);
 
-        Button btnTest = view.findViewById(R.id.btnTest);
-        output = view.findViewById(R.id.txtTestOutput);
-
-        btnTest.setOnClickListener(testEvent);
     }
 
     private boolean checkLocationPermission(){
@@ -84,66 +81,51 @@ public class HomepageFragment extends Fragment {
         }
     }
     private void assignLocationListener(){
-        LocationListener locationListener = locationService.getLocationListener();
-        if(checkLocationPermission()) manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,10,locationListener);
+        locationListener = locationService.getLocationListener((double lat, double lon) -> {
+            fetchData(lat, lon);
+        });
+        if(checkLocationPermission()) manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,10, locationListener);
         else requestLocationPermission();
     }
 
-    private View.OnClickListener testEvent = v -> {
-        Log.i(TAG, "lat " + LocationService.lat);
-        Log.i(TAG, "lon " + LocationService.lon);
-        if(LocationService.lat != 0.0  && LocationService.lon != 0.0){
-            Log.i(TAG, "Making request");
-            Webservice webservice = new Webservice();
-            webservice.getLocations(LocationService.lat, LocationService.lon, "Bank", new IRootCallback() {
-                @Override
-                public void RootCallback(Root root) {
-                    //TODO add the adapter for the recycler view
-                    String outputString = "";
-                    for(Root.Items item : root.getItems()){
-                        outputString += item.getTitle() +"\n";
-                    }
-                    Handler mHandler = new Handler(Looper.getMainLooper());
-                    String finalOutputString = outputString;
-                    mHandler.post(() -> {
-
-                        output.setText(finalOutputString);
-
-                    });
-                }
+//    private View.OnClickListener testEvent = v -> {
+//        Log.i(TAG, "lat " + LocationService.lat);
+//        Log.i(TAG, "lon " + LocationService.lon);
+//        if(LocationService.lat != 0.0  && LocationService.lon != 0.0){
+//            Log.i(TAG, "Making request");
+//            Webservice webservice = new Webservice();
+//            webservice.getLocations(LocationService.lat, LocationService.lon, "Bank", new ILocationCallback() {
+//                @Override
+//                public void RootCallback(Location location) {
+//                    //TODO add the adapter for the recycler view
+//                    String outputString = "";
+//                    for(Location.Items item : location.getItems()){
+//                        outputString += item.getTitle() +"\n";
+//                    }
+//                    Handler mHandler = new Handler(Looper.getMainLooper());
+//                    String finalOutputString = outputString;
+//                    mHandler.post(() -> {
+//                        // display info
+//
+//                    });
+//                }
+//            });
+//        }
+//    };
+//
+    private void fetchData(double lat, double lon){
+        // Log.i(TAG, "fetchData lat " + lat + " lon " + lon);
+        manager.removeUpdates(locationListener);
+        Webservice webservice = new Webservice();
+        webservice.getLocations(lat, lon, "Bank", location -> {
+            Handler mHandler = new Handler(Looper.getMainLooper());
+            mHandler.post(() -> {
+                LocationAdapter adapter = new LocationAdapter(getContext(), location.getItems());
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             });
-        }
-    };
 
-
-
-
-
-     /*
-        Geolocation listener class
-     */
-
-    private class UserLocationListener implements LocationListener {
-        public double lat;
-        public double lon;
-
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            this.lat = location.getLatitude();
-            this.lon = location.getLongitude();
-            Log.i(TAG, "onLocationChanged");
-            Log.i(TAG, "Lat is " + lat);
-            Log.i(TAG, "Lon is " + lon);
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) { }
-
-        @Override
-        public void onProviderEnabled(@NonNull String provider) { }
-
-        @Override
-        public void onProviderDisabled(@NonNull String provider) { }
+        });
     }
 
 }

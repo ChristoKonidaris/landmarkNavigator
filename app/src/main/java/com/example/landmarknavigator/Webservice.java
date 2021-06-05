@@ -9,7 +9,6 @@ import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import okhttp3.Call;
@@ -45,7 +44,7 @@ public class Webservice {
         }
     };
 
-    public void getLocations(double lat, double lon, String search, IRootCallback RootCallback){
+    public void getLocations(double lat, double lon, String search, ILocationCallback LocationCallback){
         String at = ""+lat+","+lon;
         URL url = getUrl(at, search);
         if(url == null){
@@ -64,10 +63,10 @@ public class Webservice {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String body = response.body().string();
                 Gson gson = new GsonBuilder().create();
-                Root root = gson.fromJson(body,Root.class);
+                Location location = gson.fromJson(body, Location.class);
                 Log.i(TAG, body);
-                Log.i(TAG, "Root count " + root.getItems().size());
-                RootCallback.RootCallback(root);
+                Log.i(TAG, "Root count " + location.getItems().size());
+                LocationCallback.LocationCallback(location);
             }
         });
 

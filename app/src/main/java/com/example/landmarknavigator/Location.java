@@ -2,7 +2,7 @@ package com.example.landmarknavigator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Root
+public class Location
 {
     private List<Items> items;
 

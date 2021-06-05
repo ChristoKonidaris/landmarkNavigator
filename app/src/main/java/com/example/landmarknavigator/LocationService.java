@@ -17,10 +17,13 @@ public class LocationService {
 
     public static LocationManager manager;
 
+    private ILocationServiceCallback locationServiceCallback;
+
     //empty constructor
     public LocationService(){}
 
-    public LocationListener getLocationListener(){
+    public LocationListener getLocationListener(ILocationServiceCallback locationServiceCallback){
+        this.locationServiceCallback = locationServiceCallback;
         return new UserLocationListener();
     }
 
@@ -40,6 +43,7 @@ public class LocationService {
             Log.i(TAG, "onLocationChanged");
             Log.i(TAG, "Lat is " + lat);
             Log.i(TAG, "Lon is " + lon);
+            locationServiceCallback.LocationServiceCallback(lat, lon);
         }
 
         @Override
