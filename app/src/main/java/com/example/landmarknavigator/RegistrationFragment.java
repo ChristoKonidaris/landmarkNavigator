@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +32,7 @@ public class RegistrationFragment extends Fragment {
 
     // initializing view variables
     private EditText edtEmail, edtPassword, edtRepeat;
+    private TextView txtlogin;
     private Button btnSubmit;
 
     public RegistrationFragment() {
@@ -62,8 +64,10 @@ public class RegistrationFragment extends Fragment {
         edtPassword = view.findViewById(R.id.registrationPasswordEdit);
         edtRepeat = view.findViewById(R.id.registrationPasswordRepeatEdit);
         btnSubmit = view.findViewById(R.id.registrationSubmitButton);
+        txtlogin = view.findViewById(R.id.registrationTextView);
 
         btnSubmit.setOnClickListener(registrationEvent);
+        txtlogin.setOnClickListener(navigateToLoginEvent);
     }
 
     private View.OnClickListener registrationEvent = new View.OnClickListener() {
@@ -73,12 +77,13 @@ public class RegistrationFragment extends Fragment {
             String password = edtPassword.getText().toString();
             String repeat = edtRepeat.getText().toString();
 
+
             if(email.isEmpty()){
-                edtPassword.setError("Please enter a password.");
+                edtEmail.setError("Please enter a valid email address.");
                 return;
             }
             if(password.isEmpty()){
-                edtEmail.setError("Please enter a valid email address.");
+                edtPassword.setError("Please enter a password.");
                 return;
             }
             if(repeat.isEmpty()){
@@ -123,5 +128,12 @@ public class RegistrationFragment extends Fragment {
     private void navigateToRegistrationSettings(){
         Navigation.findNavController(getView()).navigate(R.id.action_registrationFragment_to_registerSettingsFragment);
     }
+
+    private View.OnClickListener navigateToLoginEvent = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Navigation.findNavController(getView()).navigate(R.id.action_registrationFragment_to_loginFragment);
+        }
+    };
 
 }

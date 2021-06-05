@@ -4,7 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".RegistrationFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="363dp"
+        android:layout_height="403dp"
+        android:background="#00224B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.469">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/registrationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registration_navigation"
+        android:textColor="?android:attr/colorActivatedHighlight"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registrationPasswordRepeatEdit"
+        app:layout_constraintVertical_bias="0.073" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="136dp"
+        android:layout_height="58dp"
+        android:text="@string/registration_title"
+        android:textColor="?android:attr/colorActivatedHighlight"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.056" />
 
     <EditText
         android:id="@+id/registrationPasswordRepeatEdit"
@@ -12,9 +53,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="Password"
+        android:background="@color/browser_actions_title_color"
         android:ems="10"
         android:inputType="textPassword"
         android:labelFor="@id/loginPasswordEdit"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/registrationPasswordRepeatTextView"
         app:layout_constraintTop_toBottomOf="@+id/registrationPasswordRepeatTextView" />
 
@@ -25,6 +68,8 @@
         android:layout_marginTop="30dp"
         android:labelFor="@id/registrationPasswordRepeatEdit"
         android:text="@string/registration_repeat_text_view"
+        android:textColor="?android:attr/colorActivatedHighlight"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/registrationPasswordEdit"
         app:layout_constraintTop_toBottomOf="@+id/registrationPasswordEdit" />
 
@@ -34,8 +79,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="Email"
+        android:background="@color/browser_actions_title_color"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/registrationEmailTextView"
         app:layout_constraintTop_toBottomOf="@+id/registrationEmailTextView" />
 
@@ -46,6 +93,8 @@
         android:layout_marginTop="30dp"
         android:labelFor="@id/registrationPasswordEdit"
         android:text="@string/login_password_text_view"
+        android:textColor="?android:attr/colorActivatedHighlight"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/registrationEmailEdit"
         app:layout_constraintTop_toBottomOf="@+id/registrationEmailEdit" />
 
@@ -55,9 +104,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="Password"
+        android:background="@color/browser_actions_title_color"
         android:ems="10"
         android:inputType="textPassword"
         android:labelFor="@id/loginPasswordEdit"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/registrationPasswordTextView"
         app:layout_constraintTop_toBottomOf="@+id/registrationPasswordTextView" />
 
@@ -67,6 +118,8 @@
         android:layout_height="wrap_content"
         android:labelFor="@id/registrationEmailEdit"
         android:text="@string/login_email_text_view"
+        android:textColor="?android:attr/colorActivatedHighlight"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.268"
@@ -79,10 +132,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registration_submit_button"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registrationPasswordRepeatEdit"
-        app:layout_constraintVertical_bias="0.26999998" />
+        app:layout_constraintVertical_bias="0.27" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
