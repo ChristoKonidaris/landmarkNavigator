@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.settings:
                     // navigate to settings
                     Log.i(TAG, "settings clicked");
+                    navController.navigate(R.id.settingsFragment);
                     break;
             }
             return false;

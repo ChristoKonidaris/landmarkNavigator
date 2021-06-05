@@ -168,11 +168,20 @@ public class LoginFragment extends Fragment {
             String email = edtEmail.getText().toString();
             String password = edtPassword.getText().toString();
 
-            if(email.isEmpty() || password.isEmpty()){
-                Toast.makeText(getContext(), "Please complete all the fields",Toast.LENGTH_SHORT)
-                        .show();
+
+            if(email.isEmpty()){
+                edtEmail.setError("Please enter a valid email address.");
                 return;
             }
+            if(password.isEmpty()){
+                edtPassword.setError("Please enter a password.");
+                return;
+            }
+            if (password.length() < 6) {
+                edtPassword.setError("Password must be at least 6 characters long.");
+                return;
+            }
+           
 
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(getActivity(), loginListener);
             Toast.makeText(getContext(), "Login in", Toast.LENGTH_LONG).show();

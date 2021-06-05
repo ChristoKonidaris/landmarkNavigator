@@ -73,14 +73,24 @@ public class RegistrationFragment extends Fragment {
             String password = edtPassword.getText().toString();
             String repeat = edtRepeat.getText().toString();
 
-            if(email.isEmpty() || password.isEmpty() || repeat.isEmpty()){
-                Toast.makeText(getContext(), "Please complete all fields", Toast.LENGTH_SHORT)
-                        .show();
+            if(email.isEmpty()){
+                edtPassword.setError("Please enter a password.");
+                return;
+            }
+            if(password.isEmpty()){
+                edtEmail.setError("Please enter a valid email address.");
+                return;
+            }
+            if(repeat.isEmpty()){
+                edtRepeat.setError("Please confirm your password.");
                 return;
             }
             if(!password.equals(repeat)){
-                Toast.makeText(getContext(), "Passwords do no match", Toast.LENGTH_SHORT)
-                        .show();
+                edtPassword.setError("Passwords do no match.");
+                return;
+            }
+            if (password.length() < 6) {
+                edtPassword.setError("Password must be at least 6 characters long.");
                 return;
             }
 

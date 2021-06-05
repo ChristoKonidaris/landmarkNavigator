@@ -5,14 +5,33 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
 public class SettingsFragment extends Fragment {
+
+    //Firebase variables
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference mRef = mDatabase.getReference();
+    //View variables
+    Spinner spnrUnits, spnrTheme, spnrLandmark;
+    Button btnSave, btnLogout;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -41,6 +60,92 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //assigning view vars
+        spnrUnits = view.findViewById(R.id.settingsUnitsSpinner);
+        spnrTheme = view.findViewById(R.id.settingsThemeSpinner);
+        spnrLandmark = view.findViewById(R.id.settingsLandmarkSpinner);
+        btnSave = view.findViewById(R.id.settingsSaveButton);
+        btnLogout = view.findViewById(R.id.settingsLogoutButton);
 
+        // todo pull the data from the settings/database
+        String[] unitArr = {"Imperial", "Metric"};
+        String[] themeArr = {"Dark", "Light"};
+        String[] landmarkArr = {
+                "Banks/ATM",
+                "Coffee Shops",
+                "Gas Stations",
+                "Hospitals",
+                "Movies",
+                "Restaurants",
+                "Bars",
+                "Schools",
+                "Tourist Attractions",
+                "Shopping Center",
+                "Post Office",
+                "Churches",
+                "Car Wash",
+                "Fire Station",
+                "Police Station",
+                "Veterinarian",
+                "Art Gallery",
+                "Museum",
+                "Fast Food",
+                "Casino",
+                "Embassy",
+                "Prisons",
+                "Hotel",
+                "Zoo/Park",
+                "Gyms",
+                "Library",
+                "Airport"
+        };
+
+        spnrUnits.setAdapter(getAdapter(unitArr));
+        spnrTheme.setAdapter(getAdapter(themeArr));
+        spnrLandmark.setAdapter(getAdapter(landmarkArr));
+
+        btnSave.setOnClickListener(saveEvent);
+        btnLogout.setOnClickListener(logoutEvent);
     }
+
+
+    private View.OnClickListener saveEvent = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String unit = spnrUnits.getSelectedItem().toString();
+            String theme = spnrTheme.getSelectedItem().toString();
+            String landmark = spnrLandmark.getSelectedItem().toString();
+
+            Settings settings = new Settings(unit, theme, landmark);
+            mRef.child("users")
+                    .child(mAuth.getUid())
+                    .child("settings")
+                    .setValue(settings)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getContext(), "Settings updated", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "Failed with error " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    };
+
+    private ArrayAdapter<String> getAdapter(String[] items){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
+    };
+    private View.OnClickListener logoutEvent = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(getContext(), "Logged out", Toast.LENGTH_SHORT).show();
+            Navigation.findNavController(getView()).navigate(R.id.action_settingsFragment_to_loginFragment);
+        }
+    };
 }
