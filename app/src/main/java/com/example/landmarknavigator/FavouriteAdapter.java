@@ -1,65 +1,76 @@
 package com.example.landmarknavigator;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.landmarknavigator.model.Item;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyViewHolder> {
+    public static final String TAG = "FavouriteAdapter";
+    // instance variables
+    Context ctx;
+    List<Item> items;
+    List<String> itemsKeys;
 
-    Context context;
-
-    ArrayList<Item> list;
-
-    public FavouriteAdapter(Context context, ArrayList<Item> list) {
-        this.context = context;
-        this.list = list;
+    // LocationAdapter Constructor
+    public FavouriteAdapter(Context ctx, List<Item> items, List<String> itemKeys){
+        this.ctx = ctx;
+        this.items = items;
+        this.itemsKeys = itemKeys;
     }
 
     @NonNull
-    @NotNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.favourite_row, parent,false);
-        return new MyViewHolder(v);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(ctx);
+        View view = inflater.inflate(R.layout.favourite_row, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
-
-        Item item = list.get(position);
-        holder.title.setText(item.getTitle());
-        holder.street.setText(item.getStreet());
-        holder.post.setText(item.getPost());
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        // set holder.view
+        holder.txtTitle.setText(items.get(position).title);
+        holder.txtStreet.setText(items.get(position).street);
+        holder.txtPost.setText(items.get(position).post);
+        holder.btnDelete.setOnClickListener(v -> {
+           Log.i(TAG, "Deleting item " + itemsKeys.get(position));
+            FirebaseDatabase
+                    .getInstance()
+                    .getReference("users")
+                    .child(FirebaseAuth.getInstance().getUid())
+                    .child("favourites")
+                    .child(itemsKeys.get(position)).removeValue();
+        });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return items.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
-
-
-        TextView title, street, post;
-
-        public MyViewHolder(@NonNull @NotNull View itemView) {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView txtTitle, txtStreet, txtPost;
+        Button btnDelete;
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            title = itemView.findViewById(R.id.txtFavTitle);
-            street = itemView.findViewById(R.id.txtFavStreet);
-            post = itemView.findViewById(R.id.txtFavPost);
+            txtTitle = itemView.findViewById(R.id.txtFavTitle);
+            txtStreet = itemView.findViewById(R.id.txtFavStreet);
+            txtPost = itemView.findViewById(R.id.txtFavPost);
+            btnDelete = itemView.findViewById(R.id.btnDeleteFav);
         }
     }
 

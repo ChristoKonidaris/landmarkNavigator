@@ -14,6 +14,9 @@ public class Item implements Parcelable {
     public String phone;
     public String website;
 
+    //empty constructor
+    public Item(){}
+
     public Item(String title, String street, String post, double lat, double lon, String phone, String website) {
         this.title = title;
         this.street = street;

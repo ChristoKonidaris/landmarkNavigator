@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +29,12 @@ import java.util.List;
 
 public class FavouritesFragment extends Fragment {
 
+    public static final String TAG = "FavouriteFragment";
     //view variables
     RecyclerView recyclerView;
-    DatabaseReference databaseReference;
+    DatabaseReference mRef;
     FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
-    //FavouriteAdapter favouriteAdapter;
-    ArrayList<Item> list;
-
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -65,33 +64,39 @@ public class FavouritesFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
-        //databaseReference = mDatabase.getReference();
+        mRef = mDatabase.getReference()
+                .child("users")
+                .child(mAuth.getUid())
+                .child("favourites");
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        databaseReference = mDatabase.getReference("users").child(mAuth.getUid()).child("favourites");
-
-        list = new ArrayList<>();
-        //favouriteAdapter = new FavouriteAdapter(FavouritesFragment.this, list);
-        //recyclerView.setAdapter(favouriteAdapter);
-
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        
+        mRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Item item = dataSnapshot.getValue(Item.class);
-                    list.add(item);
-
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i(TAG, "onDataChange");
+                List<Item> items = new ArrayList<>();
+                List<String> itemKeys = new ArrayList<>();
+                for (DataSnapshot fav : snapshot.getChildren()){
+                    Log.i(TAG, fav.getKey());
+                    items.add(fav.getValue(Item.class));
+                    itemKeys.add(fav.getKey());
                 }
-                //List<Item> itemList = ((List<Item>) list.to);
-                //favouriteAdapter.notifyDataSetChanged();
+                populateFavRecycler(items, itemKeys);
             }
 
             @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "onCancelled:ValueListener");
             }
         });
+
+    }
+
+    private void populateFavRecycler(List<Item> items, List<String> itemKeys){
+        FavouriteAdapter adapter = new FavouriteAdapter(getContext(), items, itemKeys);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
 
