@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class LoginFragment extends Fragment {
     private EditText edtEmail, edtPassword;
     private TextView txtRegistration;
     private Button btnSubmit;
+    private ProgressBar pb;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -84,11 +86,13 @@ public class LoginFragment extends Fragment {
         Log.i(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 
+
         //assign view variables
         edtEmail = view.findViewById(R.id.loginEmailEdit);
         edtPassword = view.findViewById(R.id.loginPasswordEdit);
         txtRegistration = view.findViewById(R.id.loginRegistrationTextView);
         btnSubmit = view.findViewById(R.id.loginSubmitButton);
+        pb = view.findViewById(R.id.pb);
 
         /**
          * https://stackoverflow.com/questions/843675/how-do-i-find-out-if-the-gps-of-an-android-device-is-enabled
@@ -181,10 +185,11 @@ public class LoginFragment extends Fragment {
                 edtPassword.setError("Password must be at least 6 characters long.");
                 return;
             }
-           
 
+            //progressbar start
+            pb.setVisibility(View.VISIBLE);
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(getActivity(), loginListener);
-            Toast.makeText(getContext(), "Login in", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Login", Toast.LENGTH_LONG).show();
         }
     };
 
@@ -195,23 +200,30 @@ public class LoginFragment extends Fragment {
                 buildAlertMessageNoGps();
                 return;
             }
+
             Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_registrationFragment);
         }
     };
 
     private void navigateToHomePage(){
+
         Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homepageFragment);
     }
 
     private OnCompleteListener<AuthResult> loginListener = new OnCompleteListener<AuthResult>() {
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
+
             if(task.isSuccessful()){
                 Log.d(TAG, "SignInWithEmail&Password:success");
                 Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                //progress bar end
+                pb.setVisibility(View.INVISIBLE);
                 navigateToHomePage();
             }else{
                 Log.w(TAG, "SignInWithEmail&Password:failure");
+                //progress bar end
+                pb.setVisibility(View.INVISIBLE);
                 Toast.makeText(getActivity(), "Authentication failed", Toast.LENGTH_SHORT).show();
             }
         }
