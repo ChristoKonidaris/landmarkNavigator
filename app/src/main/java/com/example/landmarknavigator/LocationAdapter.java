@@ -1,17 +1,22 @@
 package com.example.landmarknavigator;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.landmarknavigator.model.Item;
 
 import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder> {
+    public static final String TAG = "LocationAdapter";
     // instance variables
     Context ctx;
     List<Location.Items> items;
@@ -46,6 +51,24 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
             eta = Math.round(time) + 1 + "min";
         }
         holder.txtEta.setText(eta);
+
+        holder.itemView.setOnClickListener(v->{
+            Log.i(TAG, "OnClick");
+            Item item = new Item(
+                    items.get(position).getTitle(),
+                    items.get(position).getAddress().getStreet(),
+                    items.get(position).getAddress().getPostalCode(),
+                    items.get(position).getPosition().getLat(),
+                    items.get(position).getPosition().getLng(),
+                    items.get(position).getContacts().get(0).getPhone().get(0).getValue(),
+                    items.get(position).getContacts().get(0).getWww().get(0).getValue()
+            );
+
+            Navigation.findNavController(v).navigate(
+                    HomepageFragmentDirections.actionHomepageFragmentToPoiInfoFragment(item)
+            );
+
+        });
     }
 
     @Override

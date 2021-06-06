@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 public class HomepageFragment extends Fragment {
     public static final int LOCATION_ACCESS_CODE = 1;
     //Location variables
@@ -30,6 +32,7 @@ public class HomepageFragment extends Fragment {
     public static final String TAG = "HomepageFragment";
     //view variables
     RecyclerView recyclerView;
+    boolean newCall;
 
     public HomepageFragment() {
         // Required empty public constructor
@@ -57,8 +60,10 @@ public class HomepageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         locationService = new LocationService();
         manager = LocationService.manager;
+        newCall = Location.savedItems == null || Location.savedItems.size() == 0;
         assignLocationListener();
         recyclerView = view.findViewById(R.id.recyclerView);
+
 
     }
 
@@ -81,50 +86,37 @@ public class HomepageFragment extends Fragment {
         }
     }
     private void assignLocationListener(){
+        if(!newCall){
+            populateRecyclerView(Location.savedItems);
+            return;
+        }
         locationListener = locationService.getLocationListener((double lat, double lon) -> {
-            fetchData(lat, lon);
+                fetchData(lat, lon);
         });
         if(checkLocationPermission()) manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,10, locationListener);
         else requestLocationPermission();
     }
 
-//    private View.OnClickListener testEvent = v -> {
-//        Log.i(TAG, "lat " + LocationService.lat);
-//        Log.i(TAG, "lon " + LocationService.lon);
-//        if(LocationService.lat != 0.0  && LocationService.lon != 0.0){
-//            Log.i(TAG, "Making request");
-//            Webservice webservice = new Webservice();
-//            webservice.getLocations(LocationService.lat, LocationService.lon, "Bank", new ILocationCallback() {
-//                @Override
-//                public void RootCallback(Location location) {
-//                    //TODO add the adapter for the recycler view
-//                    String outputString = "";
-//                    for(Location.Items item : location.getItems()){
-//                        outputString += item.getTitle() +"\n";
-//                    }
-//                    Handler mHandler = new Handler(Looper.getMainLooper());
-//                    String finalOutputString = outputString;
-//                    mHandler.post(() -> {
-//                        // display info
-//
-//                    });
-//                }
-//            });
-//        }
-//    };
-//
     private void fetchData(double lat, double lon){
         // Log.i(TAG, "fetchData lat " + lat + " lon " + lon);
         manager.removeUpdates(locationListener);
-        Webservice webservice = new Webservice();
-        webservice.getLocations(lat, lon, "Bank", location -> {
-            Handler mHandler = new Handler(Looper.getMainLooper());
-            mHandler.post(() -> {
-                LocationAdapter adapter = new LocationAdapter(getContext(), location.getItems());
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            });
 
+        if(newCall) {
+            Webservice webservice = new Webservice();
+            webservice.getLocations(lat, lon, "Bank", location -> {
+                Location.savedItems = location.getItems();
+                populateRecyclerView(location.getItems());
+
+            });
+        }
+    }
+
+    private void populateRecyclerView(List<Location.Items> items){
+        Handler mHandler = new Handler(Looper.getMainLooper());
+        mHandler.post(() -> {
+            LocationAdapter adapter = new LocationAdapter(getContext(), items);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         });
     }
 

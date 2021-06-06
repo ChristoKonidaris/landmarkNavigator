@@ -47,7 +47,11 @@
         android:id="@+id/homepageFragment"
         android:name="com.example.landmarknavigator.HomepageFragment"
         android:label="fragment_homepage"
-        tools:layout="@layout/fragment_homepage" />
+        tools:layout="@layout/fragment_homepage" >
+        <action
+            android:id="@+id/action_homepageFragment_to_poiInfoFragment"
+            app:destination="@id/poiInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerSettingsFragment"
         android:name="com.example.landmarknavigator.RegisterSettingsFragment"
@@ -64,7 +68,7 @@
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_loginFragment"
-            app:destination="@id/loginFragment"/>
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -72,4 +76,14 @@
         android:name="com.example.landmarknavigator.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/poiInfoFragment"
+        android:name="com.example.landmarknavigator.PoiInfoFragment"
+        android:label="fragment_poi_info"
+        tools:layout="@layout/fragment_poi_info"
+        >
+        <argument
+            android:name="Location"
+            app:argType="com.example.landmarknavigator.model.Item" />
+    </fragment>
 </navigation>

@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Location
 {
+    public static List<Items> savedItems;
     private List<Items> items;
 
     public void setItems(List<Items> items){
