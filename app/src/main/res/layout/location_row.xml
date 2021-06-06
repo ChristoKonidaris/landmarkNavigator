@@ -3,18 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/background">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="221dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/blue">
 
             <TextView
                 android:id="@+id/txtPoiDistance"
@@ -22,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:text="TextView"
+                android:textColor="?android:attr/colorActivatedHighlight"
                 app:layout_constraintBottom_toBottomOf="@+id/txtPoiPost"
                 app:layout_constraintEnd_toStartOf="@+id/txtPoiEta" />
 
@@ -31,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="TextView"
+                android:textColor="?android:attr/colorActivatedHighlight"
                 app:layout_constraintBottom_toBottomOf="@+id/txtPoiDistance"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -41,6 +46,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:text="TextView"
+                android:textColor="?android:attr/colorActivatedHighlight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtPoiTitle"
@@ -53,6 +59,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="TextView"
+                android:textColor="?android:attr/colorActivatedHighlight"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,6 +71,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
+                android:textColor="?android:attr/colorActivatedHighlight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtPoiAddress"
