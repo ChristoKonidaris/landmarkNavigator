@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ public class PoiInfoFragment extends Fragment {
     public static final String TAG = "PoiInfoFragment";
     //view variables
     private TextView txtTitle, txtAddress, txtPost;
-    private Button btnAddFav;
+    private Button btnAddFav, btnDirections;
     //firebase variables
     FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
@@ -72,12 +73,18 @@ public class PoiInfoFragment extends Fragment {
         txtAddress = view.findViewById(R.id.txtPoiInfoAddress);
         txtPost = view.findViewById(R.id.txtPoiInfoPost);
         btnAddFav = view.findViewById(R.id.btnAddFav);
+        btnDirections = view.findViewById(R.id.btnDirections);
 
         txtTitle.setText(item.title);
         txtAddress.setText(item.street);
         txtPost.setText(item.post);
+        
+        Webservice webservice = new Webservice();
+        Log.i(TAG, ""+ LocationService.lat+"|" +LocationService.lon+"|" +item.lat+ "|"+item.lon);
+        webservice.getRouteImage(LocationService.lat, LocationService.lon, item.lat, item.lon);
 
         btnAddFav.setOnClickListener(addFavouriteEvent);
+        btnDirections.setOnClickListener(navigateToDirections);
     }
 
     private View.OnClickListener addFavouriteEvent = v -> {
@@ -92,4 +99,13 @@ public class PoiInfoFragment extends Fragment {
             Log.e(TAG, "addFavEvent:Failed " + e.getMessage());
                 });
     };
+
+    private View.OnClickListener navigateToDirections = v -> {
+        Navigation.findNavController(v).navigate(
+                PoiInfoFragmentDirections.actionPoiInfoFragmentToDirectionsFragment(item)
+        );
+
+      // Navigation.findNavController(getView()).navigate(PoiInfoFragmentDirections.actionPoiInfoFragmentToDirectionsFragment());
+    };
+
 }
