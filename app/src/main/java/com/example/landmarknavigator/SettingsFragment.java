@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class SettingsFragment extends Fragment {
     //View variables
     Spinner spnrUnits, spnrTheme, spnrLandmark;
     Button btnSave, btnLogout;
+    ProgressBar pb;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -66,6 +68,7 @@ public class SettingsFragment extends Fragment {
         spnrLandmark = view.findViewById(R.id.settingsLandmarkSpinner);
         btnSave = view.findViewById(R.id.settingsSaveButton);
         btnLogout = view.findViewById(R.id.settingsLogoutButton);
+        pb = view.findViewById(R.id.pb);
 
         // todo pull the data from the settings/database
         String[] unitArr = {"Imperial", "Metric"};
@@ -112,6 +115,9 @@ public class SettingsFragment extends Fragment {
     private View.OnClickListener saveEvent = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            //start progress
+            pb.setVisibility(View.VISIBLE);
+
             String unit = spnrUnits.getSelectedItem().toString();
             String theme = spnrTheme.getSelectedItem().toString();
             String landmark = spnrLandmark.getSelectedItem().toString();
@@ -124,11 +130,15 @@ public class SettingsFragment extends Fragment {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            //progress end
+                            pb.setVisibility(View.INVISIBLE);
                             Toast.makeText(getContext(), "Settings updated", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    //progress end
+                    pb.setVisibility(View.INVISIBLE);
                     Toast.makeText(getContext(), "Failed with error " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

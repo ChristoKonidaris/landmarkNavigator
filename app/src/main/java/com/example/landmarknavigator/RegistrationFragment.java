@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class RegistrationFragment extends Fragment {
     private EditText edtEmail, edtPassword, edtRepeat;
     private TextView txtlogin;
     private Button btnSubmit;
+    private ProgressBar pb;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -65,6 +67,7 @@ public class RegistrationFragment extends Fragment {
         edtRepeat = view.findViewById(R.id.registrationPasswordRepeatEdit);
         btnSubmit = view.findViewById(R.id.registrationSubmitButton);
         txtlogin = view.findViewById(R.id.registrationTextView);
+        pb = view.findViewById(R.id.pb);
 
         btnSubmit.setOnClickListener(registrationEvent);
         txtlogin.setOnClickListener(navigateToLoginEvent);
@@ -101,7 +104,8 @@ public class RegistrationFragment extends Fragment {
 
             Log.i(TAG, "Registration email "+ email);
             Log.i(TAG, "Registration password "+ password);
-
+            //progress bar start
+            pb.setVisibility(View.VISIBLE);
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(getActivity(), registrationListener);
             Toast.makeText(getContext(), "Registering", Toast.LENGTH_SHORT).show();
         }
@@ -113,11 +117,15 @@ public class RegistrationFragment extends Fragment {
             if(task.isSuccessful()){
                 Log.d(TAG, "CreateWithUsername&Password:success");
                 Toast.makeText(getActivity(), "User Registered", Toast.LENGTH_SHORT).show();
+                //progressbar end
+                pb.setVisibility(View.INVISIBLE);
                 navigateToRegistrationSettings();
             }else{
                 Log.w(TAG, "CreateWithUsername&Password:failure");
                 FirebaseAuthException e = (FirebaseAuthException)task.getException();
                 Log.e(TAG, e.getMessage());
+                //progress end
+                pb.setVisibility(View.INVISIBLE);
                 Toast.makeText(getActivity(), "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
 
                 // Toast.makeText(getActivity(), "Failed to register user", Toast.LENGTH_SHORT).show();

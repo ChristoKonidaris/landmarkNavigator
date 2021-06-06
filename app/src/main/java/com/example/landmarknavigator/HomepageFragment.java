@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class HomepageFragment extends Fragment {
     //view variables
     RecyclerView recyclerView;
     boolean newCall;
+    private ProgressBar pb;
 
     public HomepageFragment() {
         // Required empty public constructor
@@ -58,6 +60,11 @@ public class HomepageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        pb = view.findViewById(R.id.pb);
+
+        //start progress bar
+        pb.setVisibility(View.VISIBLE);
+
         locationService = new LocationService();
         manager = LocationService.manager;
         newCall = Location.savedItems == null || Location.savedItems.size() == 0;
@@ -112,6 +119,8 @@ public class HomepageFragment extends Fragment {
     }
 
     private void populateRecyclerView(List<Location.Items> items){
+        //end progress
+        pb.setVisibility(View.INVISIBLE);
         Handler mHandler = new Handler(Looper.getMainLooper());
         mHandler.post(() -> {
             LocationAdapter adapter = new LocationAdapter(getContext(), items);
