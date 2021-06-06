@@ -61,4 +61,16 @@ public class Item implements Parcelable {
         dest.writeString(phone);
         dest.writeString(website);
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getPost() {
+        return post;
+    }
 }

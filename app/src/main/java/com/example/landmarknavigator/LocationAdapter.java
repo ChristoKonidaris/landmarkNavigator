@@ -59,9 +59,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
                     items.get(position).getAddress().getStreet(),
                     items.get(position).getAddress().getPostalCode(),
                     items.get(position).getPosition().getLat(),
-                    items.get(position).getPosition().getLng(),
-                    items.get(position).getContacts().get(0).getPhone().get(0).getValue(),
-                    items.get(position).getContacts().get(0).getWww().get(0).getValue()
+                    items.get(position).getPosition().getLng(),"",""
+                    //items.get(position).getContacts().get(0).getPhone().get(0).getValue(),
+                    //items.get(position).getContacts().get(0).getWww().get(0).getValue()
             );
 
             Navigation.findNavController(v).navigate(
