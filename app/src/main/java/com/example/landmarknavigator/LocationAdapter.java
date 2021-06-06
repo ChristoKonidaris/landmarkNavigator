@@ -22,7 +22,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
     List<Location.Items> items;
 
 
-    // RootAdapter Constructor
+    // LocationAdapter Constructor
     public LocationAdapter(Context ctx, List<Location.Items> items){
         this.ctx = ctx;
         this.items = items;
