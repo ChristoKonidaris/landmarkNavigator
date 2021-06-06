@@ -17,6 +17,12 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAw7lSvKJwJAgmRe47KQcNZ0SQysrRNLl4"/>
+        <meta-data
+            android:name="com.here.sdk.access_key_id"
+            android:value="GuRGNRV1K_gRZninWCnq0w" />
+        <meta-data
+            android:name="com.here.sdk.access_key_secret"
+            android:value="BHemfN7C3KbCooSYGU4UgOluiPDu10x30D3_XfkHi-akYxs2WVmqGuu7vImDd3vit3xmUcO89Q6GHUMUez0WWg" />
 
         <activity android:name=".MainActivity" >
             <intent-filter>
