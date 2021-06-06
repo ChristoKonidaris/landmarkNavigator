@@ -2,13 +2,11 @@ package com.example.landmarknavigator;
 
 public class Settings {
     public String Unit;
-    public String Theme;
     public String Landmark;
 
     public Settings(){}
-    public Settings(String unit, String theme, String landmark){
+    public Settings(String unit, String landmark){
         this.Unit = unit;
-        this.Theme = theme;
         this.Landmark = landmark;
     }
 
