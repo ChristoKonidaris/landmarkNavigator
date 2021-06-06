@@ -86,4 +86,9 @@
             android:name="Location"
             app:argType="com.example.landmarknavigator.model.Item" />
     </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.landmarknavigator.FavouritesFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites" />
 </navigation>

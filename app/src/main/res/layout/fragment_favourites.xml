@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".HomepageFragment">
+    tools:context=".FavouritesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="230dp"
-        android:layout_height="50dp"
-        android:text="@string/home_screen_title"
+        android:layout_width="172dp"
+        android:layout_height="46dp"
+        android:text="@string/favourites_title"
         android:textColor="?android:attr/colorActivatedHighlight"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,5 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.789" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,6 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         app:cardBackgroundColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="221dp">
@@ -21,62 +20,47 @@
             android:background="@drawable/blue">
 
             <TextView
-                android:id="@+id/txtPoiDistance"
+                android:id="@+id/txtFavStreet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:text="TextView"
-                android:textColor="?android:attr/colorActivatedHighlight"
-                app:layout_constraintBottom_toBottomOf="@+id/txtPoiPost"
-                app:layout_constraintEnd_toStartOf="@+id/txtPoiEta" />
-
-            <TextView
-                android:id="@+id/txtPoiEta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="TextView"
-                android:textColor="?android:attr/colorActivatedHighlight"
-                app:layout_constraintBottom_toBottomOf="@+id/txtPoiDistance"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/txtPoiAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:text="TextView"
                 android:textColor="?android:attr/colorActivatedHighlight"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.056"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtPoiTitle"
-                app:layout_constraintVertical_bias="0.32999998" />
+                app:layout_constraintTop_toBottomOf="@+id/txtFavTitle"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/txtPoiTitle"
+                android:id="@+id/txtFavTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="4dp"
                 android:text="TextView"
                 android:textColor="?android:attr/colorActivatedHighlight"
                 android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.047"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.136" />
 
             <TextView
-                android:id="@+id/txtPoiPost"
+                android:id="@+id/txtFavPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
                 android:textColor="?android:attr/colorActivatedHighlight"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.056"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtPoiAddress"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/txtFavStreet"
+                app:layout_constraintVertical_bias="1.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,6 +35,12 @@
     <string name="settings_logout_button">Logout</string>
     <string name="settings_app_version">App Version 1.0</string>
 
+    <!-- Favourites Screen -->
+    <string name="favourites_title">Favourites</string>
+
+    <!-- Home screen -->
+    <string name="home_screen_title">Home Screen</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

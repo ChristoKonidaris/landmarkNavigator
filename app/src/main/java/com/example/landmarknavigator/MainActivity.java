@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.favourites:
                     // navigate to favs
                     Log.i(TAG, "favs clicked");
+                    navController.navigate(R.id.favouritesFragment);
                     break;
                 case R.id.settings:
                     // navigate to settings
