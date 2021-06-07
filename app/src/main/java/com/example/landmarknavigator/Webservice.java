@@ -27,7 +27,6 @@ public class Webservice {
     private final String PARAM_SEARCH = "q";
     private final String PARAM_API_KEY = "apiKey";
 
-    // todo move the the properties
     private final String apiKey = "SNouMi6cYPIlXxQfw3RYQQzCF0C2IOIry89blpc4vQQ";
 
     public URL getUrl(String at, String search) {
@@ -69,15 +68,6 @@ public class Webservice {
                 LocationCallback.LocationCallback(location);
             }
         });
-
-//        try(Response response = client.newCall(request).execute()){
-//            return response.body().string();
-//        }catch (Exception e){
-//            Log.i(TAG, "failed to get response");
-//            return null;
-//        }
-
     }
-
 
 }

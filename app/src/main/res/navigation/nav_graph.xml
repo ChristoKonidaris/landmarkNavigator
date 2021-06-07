@@ -85,10 +85,22 @@
         <argument
             android:name="Location"
             app:argType="com.example.landmarknavigator.model.Item" />
+        <action
+            android:id="@+id/action_poiInfoFragment_to_directionsFragment"
+            app:destination="@id/directionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="com.example.landmarknavigator.FavouritesFragment"
         android:label="fragment_favourites"
         tools:layout="@layout/fragment_favourites" />
+    <fragment
+        android:id="@+id/directionsFragment"
+        android:name="com.example.landmarknavigator.DirectionsFragment"
+        android:label="fragment_directions"
+        tools:layout="@layout/fragment_directions" >
+        <argument
+            android:name="Location"
+            app:argType="com.example.landmarknavigator.model.Item" />
+    </fragment>
 </navigation>

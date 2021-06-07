@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,16 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LandmarkNavigator">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAw7lSvKJwJAgmRe47KQcNZ0SQysrRNLl4"/>
-        <meta-data
-            android:name="com.here.sdk.access_key_id"
-            android:value="GuRGNRV1K_gRZninWCnq0w" />
-        <meta-data
-            android:name="com.here.sdk.access_key_secret"
-            android:value="BHemfN7C3KbCooSYGU4UgOluiPDu10x30D3_XfkHi-akYxs2WVmqGuu7vImDd3vit3xmUcO89Q6GHUMUez0WWg" />
-
         <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +24,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        // google maps api
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAw7lSvKJwJAgmRe47KQcNZ0SQysrRNLl4"/>
+
+        // here sdk keys
+        <meta-data
+            android:name="com.here.android.maps.appid"
+            android:value="byfCAoEei4iqJEiKQCCO" />
+        <meta-data
+            android:name="com.here.android.maps.apptoken"
+            android:value="LPl4vLg_on0oBXv1TaAsmQ" />
+        <meta-data
+            android:name="com.here.android.maps.license.key"
+            android:value="eZWlGuv2vunWgnSiLSPn8t+T8F9+BKC00/pkGiyWXjFy01bSBGBaiLDcfcB21sLejHcAJDG7ROCw6Cjx87Mx24+twmkf3facr5GoFMQfelgcUPvkUKxxycQIuRgCCywJ5yJ+AMNmKmE1lgGB0huM81ONj2P2LmHWNrrdGLjBJbTxiBU7mXuLBHJwHiQAW3fSG3fUrs76xnGXCERf9x1nX9eg3Ul5LEQptxXFe4VeOoe33Lt0A9c3Aya+P2Z4TR8z+oWVCC3HB5Zio7SG6pV+Z7kxsoA98DQklX4xGiRr1jyJ5mlHB5v09gVgtF9fvirIXAVAtg87Z1FUcf/R2fGyYOZBUQ4kKvMOueK2yyQ/r5Wf2uoH5+L+ieR6DbABbsVPnUzClJUuSPthFIyrISwv4THUlMnrdPxp82UkUmuSJaAjTsr2YN3Cqd1q9GG1FuNYo2AooEr91qZFIpHkyxY7sJ0I4blmISNdyamrC2MOV+IFJx+pH/pvTrG/DLolZ430QjzU4LflUdYXMfOOeVch3xQUtwGp4vbRM/+MjOQXLDjg6iZBxWFiAsPHPYvTVyTFWRtcsZwpRgcqeMpw3dbump8iKXDt8D2p9xTZoL6bDiOBPV+2Gxpx7QBDXyLmZHv/jflpGY0V+26RSIwjrwWYkuj1+1P5UPVu+sM0aEGSPoY=" />
+
+    </application>
 </manifest>

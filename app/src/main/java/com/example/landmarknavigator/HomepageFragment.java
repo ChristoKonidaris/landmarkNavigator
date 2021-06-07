@@ -21,9 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class HomepageFragment extends Fragment {
+    //permission variables
     public static final int LOCATION_ACCESS_CODE = 1;
     //Location variables
     private LocationService locationService;
@@ -31,6 +35,10 @@ public class HomepageFragment extends Fragment {
     LocationListener locationListener;
     //logging variable
     public static final String TAG = "HomepageFragment";
+    //firebase variables
+    FirebaseAuth mAuth;
+    FirebaseDatabase mDatabase;
+
     //view variables
     RecyclerView recyclerView;
     boolean newCall;
@@ -109,8 +117,9 @@ public class HomepageFragment extends Fragment {
         manager.removeUpdates(locationListener);
 
         if(newCall) {
+            String landmark = userRuntimeConfig.userSettings.Landmark;
             Webservice webservice = new Webservice();
-            webservice.getLocations(lat, lon, "Bank", location -> {
+            webservice.getLocations(lat, lon, landmark, location -> {
                 Location.savedItems = location.getItems();
                 populateRecyclerView(location.getItems());
 

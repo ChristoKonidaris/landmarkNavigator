@@ -10,13 +10,4 @@ public class Settings {
         this.Landmark = landmark;
     }
 
-//    public String getLandmark() {
-//        return Landmark;
-//    }
-//    public String getTheme() {
-//        return Theme;
-//    }
-//    public String getUnit() {
-//        return Unit;
-//    }
 }

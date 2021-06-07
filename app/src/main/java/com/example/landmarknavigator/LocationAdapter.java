@@ -21,6 +21,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
     Context ctx;
     List<Location.Items> items;
 
+    private final double MILE = 0.621371;
+
 
     // LocationAdapter Constructor
     public LocationAdapter(Context ctx, List<Location.Items> items){
@@ -38,30 +40,57 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.txtTitle.setText(items.get(position).getTitle());
-        holder.txtAddress.setText(items.get(position).getAddress().getStreet() + ", " + items.get(position).getAddress().getCity());
-        holder.txtPost.setText(items.get(position).getAddress().getPostalCode());
-//        // check for metric or imperial or check the api settings
-        holder.txtDistance.setText("" + items.get(position).getDistance());
-        String eta;
-        double time = items.get(position).getDistance() / 1000.0 / 60;
-        if(time < 0){
-            eta ="Less than 1min";
-        }else{
-            eta = Math.round(time) + 1 + "min";
+        String title = items.get(position).getTitle();
+        String street = items.get(position).getAddress().getStreet();
+        String city = items.get(position).getAddress().getCity();
+        String address = "";
+
+        if(street != null){
+            address += street + ", ";
         }
-        holder.txtEta.setText(eta);
+        if(city != null){
+            address += city;
+        }
+
+        String post = items.get(position).getAddress().getPostalCode();
+        double distance = items.get(position).getDistance() / 1000;
+
+        if(userRuntimeConfig.userSettings.Unit == "Imperial"){
+            distance = distance * MILE;
+        }
+
+        String distanceString = "";
+        if(userRuntimeConfig.userSettings.Unit == "Imperial"){
+            distanceString = (Math.round(distance * 100.0) / 100.0) + "mi";
+        }else{
+            distanceString = (Math.round(distance * 100.0) / 100.0) + "km";
+        }
+
+
+        holder.txtTitle.setText(title);
+        holder.txtAddress.setText(address);
+        holder.txtPost.setText(post);
+//        // check for metric or imperial or check the api settings
+        holder.txtDistance.setText(distanceString);
 
         holder.itemView.setOnClickListener(v->{
             Log.i(TAG, "OnClick");
+            String phone = "";
+            String web = "";
+
+            try{ phone = items.get(position).getContacts().get(0).getPhone().get(0).getValue(); }
+            catch (Exception e){ Log.e(TAG, "Failed to get phone"); }
+            try{ web = items.get(position).getContacts().get(0).getWww().get(0).getValue(); }
+            catch (Exception e){ Log.e(TAG, "Failed to get web"); }
+
             Item item = new Item(
-                    items.get(position).getTitle(),
-                    items.get(position).getAddress().getStreet(),
-                    items.get(position).getAddress().getPostalCode(),
-                    items.get(position).getPosition().getLat(),
-                    items.get(position).getPosition().getLng(),"",""
-                    //items.get(position).getContacts().get(0).getPhone().get(0).getValue(),
-                    //items.get(position).getContacts().get(0).getWww().get(0).getValue()
+                    title,
+                    street,
+                    post,
+                    items.get(position).getAccess().get(0).getLat(),
+                    items.get(position).getAccess().get(0).getLng(),
+                    phone,
+                    web
             );
 
             Navigation.findNavController(v).navigate(
@@ -77,14 +106,13 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTitle, txtAddress, txtPost, txtDistance, txtEta;
+        TextView txtTitle, txtAddress, txtPost, txtDistance;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTitle = itemView.findViewById(R.id.txtPoiTitle);
             txtAddress = itemView.findViewById(R.id.txtPoiAddress);
             txtPost = itemView.findViewById(R.id.txtPoiPost);
             txtDistance = itemView.findViewById(R.id.txtPoiDistance);
-            txtEta = itemView.findViewById(R.id.txtPoiEta);
         }
     }
 }

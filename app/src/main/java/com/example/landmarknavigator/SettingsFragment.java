@@ -69,7 +69,6 @@ public class SettingsFragment extends Fragment {
         btnLogout = view.findViewById(R.id.settingsLogoutButton);
         pb = view.findViewById(R.id.pb);
 
-        // todo pull the data from the settings/database
         String[] unitArr = {"Imperial", "Metric"};
         String[] landmarkArr = {
                 "Banks/ATM",
