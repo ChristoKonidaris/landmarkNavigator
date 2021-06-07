@@ -108,11 +108,16 @@ public class HomepageFragment extends Fragment {
             populateRecyclerView(Location.savedItems);
             return;
         }
+        if(LocationService.lat != 0.0 && LocationService.lon != 0.0){
+            fetchData(LocationService.lat, LocationService.lon);
+
+        }else{
         locationListener = locationService.getLocationListener((double lat, double lon) -> {
                 fetchData(lat, lon);
         });
         if(checkLocationPermission()) manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000,10, locationListener);
         else requestLocationPermission();
+        }
     }
 
     private void fetchData(double lat, double lon){
