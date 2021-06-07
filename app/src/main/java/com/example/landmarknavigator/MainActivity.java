@@ -1,3 +1,8 @@
+/*
+* Used navigation component documentation for the implementation and navigation
+* https://developer.android.com/guide/navigation/navigation-getting-started
+ */
+
 package com.example.landmarknavigator;
 
 import androidx.annotation.NonNull;

@@ -1,3 +1,8 @@
+/*
+* Used Here documentation for referencing.
+* https://developer.here.com/documentation/android-premium/3.18/dev_guide/topics/user-guide.html
+ */
+
 package com.example.landmarknavigator;
 
 import android.os.Bundle;

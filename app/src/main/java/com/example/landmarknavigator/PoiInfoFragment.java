@@ -1,3 +1,9 @@
+/*
+* Used Firebase for authentication and write capabilities
+* https://firebase.google.com/docs/auth
+* https://firebase.google.com/docs/database/android/read-and-write
+ */
+
 package com.example.landmarknavigator;
 
 import android.os.Bundle;

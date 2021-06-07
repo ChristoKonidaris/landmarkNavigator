@@ -1,3 +1,8 @@
+/*
+* Generated JSON to Java Pojo by FreeCodeFormat
+* https://www.freecodeformat.com/json2pojo.php
+ */
+
 package com.example.landmarknavigator;
 import java.util.ArrayList;
 import java.util.List;

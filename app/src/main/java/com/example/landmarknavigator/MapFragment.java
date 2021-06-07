@@ -1,3 +1,8 @@
+/*
+* Used Google map API for the information on the implementation
+* https://developers.google.com/maps/gmp-get-started
+ */
+
 package com.example.landmarknavigator;
 
 import android.os.Bundle;

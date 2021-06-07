@@ -1,3 +1,8 @@
+/*
+* Used OkHttp documentation for the api calls
+* https://square.github.io/okhttp/
+ */
+
 package com.example.landmarknavigator;
 
 import android.net.Uri;

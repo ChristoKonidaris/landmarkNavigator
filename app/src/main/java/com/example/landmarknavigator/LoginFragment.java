@@ -1,3 +1,8 @@
+/*
+* Used Google Firebase for authentication
+* https://firebase.google.com/docs/auth
+ */
+
 package com.example.landmarknavigator;
 
 import android.Manifest;

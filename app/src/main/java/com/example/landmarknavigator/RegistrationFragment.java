@@ -1,3 +1,8 @@
+/*
+ * Used Firebase documentation for the authentication and user registration
+ * https://firebase.google.com/docs/auth
+ */
+
 package com.example.landmarknavigator;
 
 import android.os.Bundle;

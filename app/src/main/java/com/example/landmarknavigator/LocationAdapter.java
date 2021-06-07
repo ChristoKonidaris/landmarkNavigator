@@ -1,3 +1,8 @@
+/*
+ *Used Android documentation for referencing
+ * https://developer.android.com/guide/topics/ui/layout/recyclerview
+ */
+
 package com.example.landmarknavigator;
 
 import android.content.Context;
