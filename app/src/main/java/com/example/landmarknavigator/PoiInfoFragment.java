@@ -26,7 +26,7 @@ public class PoiInfoFragment extends Fragment {
     //logging variable
     public static final String TAG = "PoiInfoFragment";
     //view variables
-    private TextView txtTitle, txtAddress, txtPost;
+    private TextView txtTitle, txtAddress, txtPost, txtPhone, txtWeb;
     private Button btnAddFav, btnDirections;
     //firebase variables
     FirebaseAuth mAuth;
@@ -72,16 +72,16 @@ public class PoiInfoFragment extends Fragment {
         txtTitle = view.findViewById(R.id.txtPoiInfoTitile);
         txtAddress = view.findViewById(R.id.txtPoiInfoAddress);
         txtPost = view.findViewById(R.id.txtPoiInfoPost);
+        txtPhone = view.findViewById(R.id.txtPoiInfoPhone);
+        txtWeb = view.findViewById(R.id.txtPoiInfoWeb);
         btnAddFav = view.findViewById(R.id.btnAddFav);
         btnDirections = view.findViewById(R.id.btnDirections);
 
         txtTitle.setText(item.title);
         txtAddress.setText(item.street);
         txtPost.setText(item.post);
-        
-        Webservice webservice = new Webservice();
-        Log.i(TAG, ""+ LocationService.lat+"|" +LocationService.lon+"|" +item.lat+ "|"+item.lon);
-        webservice.getRouteImage(LocationService.lat, LocationService.lon, item.lat, item.lon);
+        txtPhone.setText(item.phone);
+        txtWeb.setText(item.website);
 
         btnAddFav.setOnClickListener(addFavouriteEvent);
         btnDirections.setOnClickListener(navigateToDirections);
@@ -105,7 +105,6 @@ public class PoiInfoFragment extends Fragment {
                 PoiInfoFragmentDirections.actionPoiInfoFragmentToDirectionsFragment(item)
         );
 
-      // Navigation.findNavController(getView()).navigate(PoiInfoFragmentDirections.actionPoiInfoFragmentToDirectionsFragment());
     };
 
 }

@@ -31,7 +31,7 @@ public class SettingsFragment extends Fragment {
     FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     DatabaseReference mRef = mDatabase.getReference();
     //View variables
-    Spinner spnrUnits, spnrTheme, spnrLandmark;
+    Spinner spnrUnits, spnrLandmark;
     Button btnSave, btnLogout;
     ProgressBar pb;
 
@@ -64,13 +64,11 @@ public class SettingsFragment extends Fragment {
 
         //assigning view vars
         spnrUnits = view.findViewById(R.id.settingsUnitsSpinner);
-        spnrTheme = view.findViewById(R.id.settingsThemeSpinner);
         spnrLandmark = view.findViewById(R.id.settingsLandmarkSpinner);
         btnSave = view.findViewById(R.id.settingsSaveButton);
         btnLogout = view.findViewById(R.id.settingsLogoutButton);
         pb = view.findViewById(R.id.pb);
 
-        // todo pull the data from the settings/database
         String[] unitArr = {"Imperial", "Metric"};
         String[] themeArr = {"Dark", "Light"};
         String[] landmarkArr = {
@@ -104,7 +102,6 @@ public class SettingsFragment extends Fragment {
         };
 
         spnrUnits.setAdapter(getAdapter(unitArr));
-        spnrTheme.setAdapter(getAdapter(themeArr));
         spnrLandmark.setAdapter(getAdapter(landmarkArr));
 
         btnSave.setOnClickListener(saveEvent);
@@ -119,10 +116,9 @@ public class SettingsFragment extends Fragment {
             pb.setVisibility(View.VISIBLE);
 
             String unit = spnrUnits.getSelectedItem().toString();
-            String theme = spnrTheme.getSelectedItem().toString();
             String landmark = spnrLandmark.getSelectedItem().toString();
 
-            Settings settings = new Settings(unit, theme, landmark);
+            Settings settings = new Settings(unit, landmark);
             mRef.child("users")
                     .child(mAuth.getUid())
                     .child("settings")

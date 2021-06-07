@@ -33,6 +33,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginFragment extends Fragment {
     //GPS variables
@@ -219,7 +224,22 @@ public class LoginFragment extends Fragment {
                 Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
                 //progress bar end
                 pb.setVisibility(View.INVISIBLE);
-                navigateToHomePage();
+                DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
+                mRef.child("users").child(mAuth.getUid()).child("settings");
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.i(TAG, "onDataChange:AssigningSettings");
+                        userRuntimeConfig.userSettings = snapshot.getValue(com.example.landmarknavigator.Settings.class);
+                        navigateToHomePage();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e(TAG, "onCancelled:Failed to fetch settings");
+                        Toast.makeText(getContext(), "Failed to fetch settings", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }else{
                 Log.w(TAG, "SignInWithEmail&Password:failure");
                 //progress bar end
