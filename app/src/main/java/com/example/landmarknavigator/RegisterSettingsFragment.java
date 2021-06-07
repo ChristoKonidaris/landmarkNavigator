@@ -16,8 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,7 +32,7 @@ public class RegisterSettingsFragment extends Fragment {
     FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     DatabaseReference mRef = mDatabase.getReference();
     //View variables
-    Spinner spnrUnits, spnrTheme, spnrLandmark;
+    Spinner spnrUnits, spnrLandmark;
     Button btnSubmit;
     ProgressBar pb;
 
@@ -61,14 +63,12 @@ public class RegisterSettingsFragment extends Fragment {
 
         //assigning view vars
         spnrUnits = view.findViewById(R.id.registrationSettingsUnitsSpinner);
-        spnrTheme = view.findViewById(R.id.registrationSettingsThemeSpinner);
         spnrLandmark = view.findViewById(R.id.registrationSettingsLandmarkSpinner);
         btnSubmit = view.findViewById(R.id.registrationSettingsSubmitButton);
         pb = view.findViewById(R.id.pb);
 
         // todo pull the data from the settings/database
         String[] unitArr = {"Imperial", "Metric"};
-        String[] themeArr = {"Dark", "Light"};
         String[] landmarkArr = {
                 "Banks/ATM",
                 "Coffee Shops",
@@ -100,7 +100,6 @@ public class RegisterSettingsFragment extends Fragment {
         };
 
         spnrUnits.setAdapter(getAdapter(unitArr));
-        spnrTheme.setAdapter(getAdapter(themeArr));
         spnrLandmark.setAdapter(getAdapter(landmarkArr));
 
         btnSubmit.setOnClickListener(submitEvent);
@@ -113,30 +112,27 @@ public class RegisterSettingsFragment extends Fragment {
             pb.setVisibility(View.VISIBLE);
 
             String unit = spnrUnits.getSelectedItem().toString();
-            String theme = spnrTheme.getSelectedItem().toString();
             String landmark = spnrLandmark.getSelectedItem().toString();
 
-            Settings settings = new Settings(unit, theme, landmark);
+            Settings settings = new Settings(unit, landmark);
             mRef.child("users")
                     .child(mAuth.getUid())
                     .child("settings")
                     .setValue(settings)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
-                            //progress end
-                            pb.setVisibility(View.INVISIBLE);
-                            Toast.makeText(getContext(), "Settings added", Toast.LENGTH_SHORT).show();
-                            Navigation.findNavController(getView()).navigate(R.id.action_registerSettingsFragment_to_homepageFragment);
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                pb.setVisibility(View.INVISIBLE);
+                                Toast.makeText(getContext(), "Settings added", Toast.LENGTH_SHORT).show();
+                                userRuntimeConfig.userSettings = new Settings(unit, landmark);
+                                Navigation.findNavController(getView()).navigate(R.id.action_registerSettingsFragment_to_homepageFragment);
+                            }else{
+                                pb.setVisibility(View.INVISIBLE);
+                                Toast.makeText(getContext(), "Failed to change settings", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    //progress end
-                    pb.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getContext(), "Failed with error " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+                    });
         }
     };
 

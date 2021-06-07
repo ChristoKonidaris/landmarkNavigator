@@ -53,19 +53,26 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
         }
 
         String post = items.get(position).getAddress().getPostalCode();
-        double distance = items.get(position).getDistance() / 1000;
+        String distanceString;
+        double distance = items.get(position).getDistance();
 
-        if(userRuntimeConfig.userSettings.Unit == "Imperial"){
-            distance = distance * MILE;
-        }
-
-        String distanceString = "";
-        if(userRuntimeConfig.userSettings.Unit == "Imperial"){
-            distanceString = (Math.round(distance * 100.0) / 100.0) + "mi";
+        if(!userRuntimeConfig.userSettings.Unit.equals("Imperial")){
+            // metric system
+            if(distance < 1000){
+                distanceString = distance + "m";
+            }else{
+                distanceString = (Math.round((distance / 1000) * 100.0) / 100.0) + "km";
+            }
         }else{
-            distanceString = (Math.round(distance * 100.0) / 100.0) + "km";
+            // imperial
+            distance = distance / 1000 * MILE;
+            if(distance < 1){
+                distanceString = (Math.round((distance * 5280.0) * 100.0) / 100.0) + "ft";
+            }else{
+                Log.i(TAG, "" + distance);
+                distanceString = (Math.round(distance * 100.0) / 100.0) + "mi";
+            }
         }
-
 
         holder.txtTitle.setText(title);
         holder.txtAddress.setText(address);

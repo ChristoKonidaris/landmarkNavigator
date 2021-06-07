@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SettingsFragment extends Fragment {
 
+    public static final String TAG = "Settings Fragemnt";
     //Firebase variables
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -70,7 +74,6 @@ public class SettingsFragment extends Fragment {
         pb = view.findViewById(R.id.pb);
 
         String[] unitArr = {"Imperial", "Metric"};
-        String[] themeArr = {"Dark", "Light"};
         String[] landmarkArr = {
                 "Banks/ATM",
                 "Coffee Shops",
@@ -112,6 +115,7 @@ public class SettingsFragment extends Fragment {
     private View.OnClickListener saveEvent = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.i(TAG, "saveEvent click");
             //start progress
             pb.setVisibility(View.VISIBLE);
 
@@ -123,21 +127,20 @@ public class SettingsFragment extends Fragment {
                     .child(mAuth.getUid())
                     .child("settings")
                     .setValue(settings)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
-                            //progress end
-                            pb.setVisibility(View.INVISIBLE);
-                            Toast.makeText(getContext(), "Settings updated", Toast.LENGTH_SHORT).show();
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                pb.setVisibility(View.INVISIBLE);
+                                Toast.makeText(getContext(), "Settings updated", Toast.LENGTH_SHORT).show();
+                                Location.savedItems = null;
+                                userRuntimeConfig.userSettings = settings;
+                            }else{
+                                pb.setVisibility(View.INVISIBLE);
+                                Toast.makeText(getContext(), "Failed with error ", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    //progress end
-                    pb.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getContext(), "Failed with error " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+                    });
         }
     };
 

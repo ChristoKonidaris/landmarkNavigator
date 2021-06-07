@@ -44,6 +44,7 @@ public class Webservice {
     };
 
     public void getLocations(double lat, double lon, String search, ILocationCallback LocationCallback){
+        Log.i(TAG, "search string is " + search);
         String at = ""+lat+","+lon;
         URL url = getUrl(at, search);
         if(url == null){

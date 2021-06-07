@@ -121,6 +121,7 @@ public class DirectionsFragment extends Fragment {
             if(routingError == RoutingError.NONE){
                 mapRoute = new MapRoute(list.get(0).getRoute());
                 map.addMapObject(mapRoute);
+                map.setCenter(new GeoCoordinate(LocationService.lat, LocationService.lon),Map.Animation.NONE);
             }else{
                 Log.e(TAG, "Error while routing " + routingError.name());
             }

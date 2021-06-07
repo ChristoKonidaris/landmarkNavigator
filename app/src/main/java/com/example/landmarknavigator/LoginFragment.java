@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
@@ -17,7 +15,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +44,7 @@ public class LoginFragment extends Fragment {
 
     //Firebase variables
     private FirebaseAuth mAuth;
+    private DatabaseReference mRef;
     // initializing view variables
     private EditText edtEmail, edtPassword;
     private TextView txtRegistration;
@@ -128,7 +126,8 @@ public class LoginFragment extends Fragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
@@ -211,7 +210,7 @@ public class LoginFragment extends Fragment {
     };
 
     private void navigateToHomePage(){
-
+        pb.setVisibility(View.INVISIBLE);
         Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homepageFragment);
     }
 
@@ -223,17 +222,17 @@ public class LoginFragment extends Fragment {
                 Log.d(TAG, "SignInWithEmail&Password:success");
                 Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
                 //progress bar end
-                pb.setVisibility(View.INVISIBLE);
-                DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
-                mRef.child("users").child(mAuth.getUid()).child("settings");
-                mRef.addValueEventListener(new ValueEventListener() {
+
+                mRef = FirebaseDatabase.getInstance().getReference();
+                mRef.child("users").child(mAuth.getUid()).child("settings").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Log.i(TAG, "onDataChange:AssigningSettings");
-                        userRuntimeConfig.userSettings = snapshot.getValue(com.example.landmarknavigator.Settings.class);
+                        Settings set = snapshot.getValue(Settings.class);
+                        userRuntimeConfig.userSettings = set;
+                        mRef.removeEventListener(this);
                         navigateToHomePage();
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Log.e(TAG, "onCancelled:Failed to fetch settings");
@@ -248,6 +247,7 @@ public class LoginFragment extends Fragment {
             }
         }
     };
+
 
 }
 

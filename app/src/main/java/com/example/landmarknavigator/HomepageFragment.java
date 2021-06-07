@@ -73,13 +73,12 @@ public class HomepageFragment extends Fragment {
         //start progress bar
         pb.setVisibility(View.VISIBLE);
 
+
         locationService = new LocationService();
         manager = LocationService.manager;
         newCall = Location.savedItems == null || Location.savedItems.size() == 0;
         assignLocationListener();
         recyclerView = view.findViewById(R.id.recyclerView);
-
-
     }
 
     private boolean checkLocationPermission(){
@@ -113,7 +112,6 @@ public class HomepageFragment extends Fragment {
     }
 
     private void fetchData(double lat, double lon){
-        // Log.i(TAG, "fetchData lat " + lat + " lon " + lon);
         manager.removeUpdates(locationListener);
 
         if(newCall) {
@@ -129,9 +127,9 @@ public class HomepageFragment extends Fragment {
 
     private void populateRecyclerView(List<Location.Items> items){
         //end progress
-        pb.setVisibility(View.INVISIBLE);
         Handler mHandler = new Handler(Looper.getMainLooper());
         mHandler.post(() -> {
+            pb.setVisibility(View.INVISIBLE);
             LocationAdapter adapter = new LocationAdapter(getContext(), items);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
