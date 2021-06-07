@@ -24,7 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RegisterSettingsFragment extends Fragment {
+public class
+RegisterSettingsFragment extends Fragment {
     //Logging Constant
     private final static String TAG = "RegistrationSettings";
     //Firebase variables

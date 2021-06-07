@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.landmarknavigator.model.Item;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,7 @@ public class FavouritesFragment extends Fragment {
     DatabaseReference mRef;
     FirebaseAuth mAuth;
     FirebaseDatabase mDatabase;
+    ProgressBar pb;
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -61,6 +63,10 @@ public class FavouritesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        pb = view.findViewById(R.id.pb);
+
+        //start progress bar
+        pb.setVisibility(View.VISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -94,6 +100,8 @@ public class FavouritesFragment extends Fragment {
     }
 
     private void populateFavRecycler(List<Item> items, List<String> itemKeys){
+        //end progress
+        pb.setVisibility(View.INVISIBLE);
         FavouriteAdapter adapter = new FavouriteAdapter(getContext(), items, itemKeys);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
