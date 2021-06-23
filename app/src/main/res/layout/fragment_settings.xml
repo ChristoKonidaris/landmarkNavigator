@@ -38,12 +38,11 @@
             android:layout_height="27dp"
             android:layout_marginStart="34dp"
             android:layout_marginTop="85dp"
-            android:layout_marginEnd="194dp"
             android:layout_marginBottom="480dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.068"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintHorizontal_bias="0.912"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
@@ -76,17 +75,16 @@
 
         <Spinner
             android:id="@+id/settingsUnitsSpinner"
-            android:layout_width="225dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="121dp"
+            android:layout_width="221dp"
+            android:layout_height="27dp"
             android:layout_marginTop="22dp"
-            android:layout_marginEnd="83dp"
             android:layout_marginBottom="37dp"
             app:layout_constraintBottom_toTopOf="@+id/settingsLandmarkSpinner"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.621"
-            app:layout_constraintStart_toEndOf="@+id/textView3"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.921"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -94,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="@string/settings_title"
         android:textColor="?android:attr/colorActivatedHighlight"
         android:textSize="34sp"
