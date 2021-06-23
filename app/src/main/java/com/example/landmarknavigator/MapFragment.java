@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.landmarknavigator.model.Item;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -63,6 +64,18 @@ public class MapFragment extends Fragment {
                 ));
                 markerOptions.title(LocationService.lat + " : " + LocationService.lon);
                 googleMap.addMarker(markerOptions);
+
+                if(Location.savedItems != null && Location.savedItems.size() > 0){
+                    for(Location.Items item : Location.savedItems){
+                        MarkerOptions mo = new MarkerOptions();
+                        mo.position(new LatLng(item.getPosition().getLat(), item.getPosition().getLng()));
+                        googleMap.addMarker(mo);
+                    }
+                }
+
+
+
+
                 //when map is loaded
                 /*googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
