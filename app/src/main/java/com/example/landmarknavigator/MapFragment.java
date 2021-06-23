@@ -18,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -56,7 +57,7 @@ public class MapFragment extends Fragment {
 
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                MarkerOptions markerOptions = new MarkerOptions();
+                MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(200));
                 LatLng latLng = new LatLng(LocationService.lat, LocationService.lon);
                 markerOptions.position(latLng);
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
