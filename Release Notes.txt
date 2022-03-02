@@ -1,0 +1,8 @@
+Release Notes:
+
+1. Added feature to show all nearby POI markers on embedded google map.
+2. Changed the user's marker colour to help differentiate between the user's current location and the nearby POI info markers.
+3. Added fixed icon to the app.
+4. Minor bug fixes.
+
+
